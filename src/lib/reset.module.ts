@@ -1,9 +1,11 @@
 import {
   ENVIRONMENT_INITIALIZER,
+  EnvironmentProviders,
+  makeEnvironmentProviders,
   ModuleWithProviders,
   NgModule,
 } from '@angular/core';
-import { NGXS_PLUGINS } from '@ngxs/store';
+import { NGXS_PLUGINS, withNgxsPlugin } from '@ngxs/store';
 import { noop } from './internals';
 import { ResetHandler } from './reset.handler';
 import { NgxsResetPlugin } from './reset.plugin';
@@ -31,4 +33,11 @@ export class NgxsResetPluginModule {
       ],
     };
   }
+}
+
+export function withNgxsResetPlugin(): EnvironmentProviders {
+  return makeEnvironmentProviders([
+    { provide: ENVIRONMENT_INITIALIZER, useFactory: noop, deps: [ResetHandler], multi: true },
+    withNgxsPlugin(NgxsResetPlugin),
+  ]);
 }

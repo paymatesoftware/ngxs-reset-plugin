@@ -1,5 +1,11 @@
 # NGXS Reset Plugin
 
+> This is a fork of https://github.com/ng-turkey/ngxs-reset-plugin with the following changes:
+> Updated to Angular v18 and Ngxs 18. Featuring standalone API and modern improvements.
+> Thank you for the original work!
+> Please give your credits to the original authors.
+
+
 <p align="center">
   <a href="https://travis-ci.org/ng-turkey/ngxs-reset-plugin"><img src="https://travis-ci.org/ng-turkey/ngxs-reset-plugin.svg?branch=master"/></a>
   <a href="https://codeclimate.com/github/ng-turkey/ngxs-reset-plugin/maintainability"><img src="https://api.codeclimate.com/v1/badges/94f61495acc71b81033a/maintainability" /></a>
@@ -7,6 +13,7 @@
   <img src="https://img.shields.io/github/license/ng-turkey/ngxs-reset-plugin.svg" />
   <a href="https://twitter.com/ngTurkiye"><img src="https://img.shields.io/twitter/follow/ngTurkiye.svg?label=Follow"/></a>
 </p>
+
 
 This plugin is designed to clear, reset, and overwrite [NGXS](https://www.npmjs.com/package/@ngxs/store) states on dispatch of predefined actions. Please check [this playground](https://stackblitz.com/edit/ngxs-pizza?file=src%2Fapp%2Forder%2Forder.handler.ts) for a working example.
 

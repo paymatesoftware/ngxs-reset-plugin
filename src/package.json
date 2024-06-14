@@ -1,15 +1,15 @@
 {
-  "name": "ngxs-reset-plugin",
-  "version": "3.0.0",
+  "name": "@simfyz/ngxs-reset-plugin",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ng-turkey/ngxs-reset-plugin.git"
+    "url": "git+https://github.com/simfyz/ngxs-reset-plugin.git"
   },
-  "license": "MIT",
-  "homepage": "https://github.com/ng-turkey/ngxs-reset-plugin#readme",
   "bugs": {
-    "url": "https://github.com/ng-turkey/ngxs-reset-plugin/issues"
+    "url": "https://github.com/simfyz/ngxs-reset-plugin/issues"
   },
+  "homepage": "https://github.com/simfyz/ngxs-reset-plugin#readme",
+  "license": "MIT",
   "description": "Reset plugin for NGXS: Effortlessly clears, resets, or overwrites NGXS states respecting the state tree.",
   "keywords": [
     "ngxs",
@@ -24,8 +24,9 @@
     "state defaults"
   ],
   "peerDependencies": {
-    "@angular/core": ">=14.0.0",
-    "@ngxs/store": ">=0.0.0",
-    "rxjs": ">=6.0.0"
-  }
+    "@angular/core": ">=16.0.0",
+    "@ngxs/store": ">=18.0.0",
+    "rxjs": ">=7.0.0"
+  },
+  "main": "public_api.ts"
 }

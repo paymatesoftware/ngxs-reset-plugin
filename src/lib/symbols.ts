@@ -1,6 +1,6 @@
 import { isDevMode } from '@angular/core';
-import { getStoreMetadata } from '@ngxs/store';
 import { MetaDataModel, StateClass } from './internals';
+import { ɵgetStoreMetadata } from '@ngxs/store/internals';
 
 export type OverwriteTuple = [StateClass, any];
 type MetaTuple = [MetaDataModel[], any[]];
@@ -82,7 +82,7 @@ export function getMetaData(
   state: StateClass,
   devMode: number,
 ): MetaDataModel | null {
-  const meta = new Object(getStoreMetadata(state as any)) as MetaDataModel;
+  const meta = new Object(ɵgetStoreMetadata (state as any)) as MetaDataModel;
   const isNgxsMeta = meta.name && 'defaults' in meta;
 
   // Reusability Hack: devMode is number on purpose
