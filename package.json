@@ -1,6 +1,6 @@
 {
   "name": "@simfyz/ngxs-reset-plugin",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,7 +12,6 @@
     "verdaccio": "cd dist/ngxs-reset-plugin && npm publish --registry http://localhost:4873 && cd ../..",
     "unverdaccio": "cd dist/ngxs-reset-plugin && npm unpublish --registry http://localhost:4873 --force && cd ../.."
   },
-  "private": true,
   "dependencies": {
     "@angular/core": "^18.0.3",
     "@ngxs/store": "^18.0.0",

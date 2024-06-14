@@ -37,6 +37,8 @@ export class NgxsResetPluginModule {
 
 export function withNgxsResetPlugin(): EnvironmentProviders {
   return makeEnvironmentProviders([
+    ResetService,
+    ResetHandler,
     { provide: ENVIRONMENT_INITIALIZER, useFactory: noop, deps: [ResetHandler], multi: true },
     withNgxsPlugin(NgxsResetPlugin),
   ]);
