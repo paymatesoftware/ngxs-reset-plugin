@@ -24,7 +24,7 @@
     "state defaults"
   ],
   "peerDependencies": {
-    "@angular/core": ">=16.0.0",
+    "@angular/core": ">=18.0.0",
     "@ngxs/store": ">=18.0.0",
     "rxjs": ">=7.0.0"
   },

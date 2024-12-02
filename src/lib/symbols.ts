@@ -1,6 +1,6 @@
 import { isDevMode } from '@angular/core';
+import { ɵgetStoreMetadata as getStoreMetadata } from '@ngxs/store/internals';
 import { MetaDataModel, StateClass } from './internals';
-import { ɵgetStoreMetadata } from '@ngxs/store/internals';
 
 export type OverwriteTuple = [StateClass, any];
 type MetaTuple = [MetaDataModel[], any[]];
@@ -21,7 +21,6 @@ export class StateClear {
   public readonly statesToKeep: MetaDataModel[];
 
   // The duplication is necessary for TypeScript
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
   constructor(...statesToKeep: StateClass[]);
   constructor();
   constructor(...statesToKeep: StateClass[]) {
@@ -50,7 +49,6 @@ export class StateResetAll {
   public readonly statesToKeep: MetaDataModel[];
 
   // The duplication is necessary for TypeScript
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
   constructor(...statesToKeep: StateClass[]);
   constructor();
   constructor(...statesToKeep: StateClass[]) {
@@ -82,7 +80,7 @@ export function getMetaData(
   state: StateClass,
   devMode: number,
 ): MetaDataModel | null {
-  const meta = new Object(ɵgetStoreMetadata (state as any)) as MetaDataModel;
+  const meta = new Object(getStoreMetadata(state as any)) as MetaDataModel;
   const isNgxsMeta = meta.name && 'defaults' in meta;
 
   // Reusability Hack: devMode is number on purpose
