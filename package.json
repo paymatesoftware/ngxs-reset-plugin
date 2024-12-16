@@ -1,6 +1,6 @@
 {
-  "name": "@simfyz/ngxs-reset-plugin",
-  "version": "2.1.0",
+  "name": "@paymate-software/ngxs-reset-plugin",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@angular/core": "^19.0.1",
-    "@ngxs/store": "^18.1.6",
+    "@ngxs/store": "^19.0.0",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.3"
   },

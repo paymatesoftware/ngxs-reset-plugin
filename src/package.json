@@ -1,14 +1,14 @@
 {
-  "name": "@simfyz/ngxs-reset-plugin",
-  "version": "2.1.0",
+  "name": "@paymate-software/ngxs-reset-plugin",
+  "version": "2.2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simfyz/ngxs-reset-plugin.git"
+    "url": "git+https://github.com/paymatesoftware/ngxs-reset-plugin.git"
   },
   "bugs": {
-    "url": "https://github.com/simfyz/ngxs-reset-plugin/issues"
+    "url": "https://github.com/paymatesoftware/ngxs-reset-plugin/issues"
   },
-  "homepage": "https://github.com/simfyz/ngxs-reset-plugin#readme",
+  "homepage": "https://github.com/paymatesoftware/ngxs-reset-plugin#readme",
   "license": "MIT",
   "description": "Reset plugin for NGXS: Effortlessly clears, resets, or overwrites NGXS states respecting the state tree.",
   "keywords": [
