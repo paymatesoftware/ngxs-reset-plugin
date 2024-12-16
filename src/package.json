@@ -1,6 +1,6 @@
 {
   "name": "@paymate-software/ngxs-reset-plugin",
-  "version": "2.2.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/paymatesoftware/ngxs-reset-plugin.git"
