@@ -13,7 +13,3 @@ export interface StateClass<T = {}> {
 
   new (...args: any[]): T;
 }
-
-export function noop() {
-  return () => {};
-}

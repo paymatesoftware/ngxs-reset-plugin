@@ -8,21 +8,21 @@
     "declaration": true,
     "sourceMap": true,
     "inlineSources": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["dom", "ES2022"]
+    "lib": [
+      "dom",
+      "ES2022"
+    ]
   },
   "angularCompilerOptions": {
-    "enableIvy": true,
     "compilationMode": "partial",
-    "annotateForClosureCompiler": true,
-    "skipTemplateCodegen": true,
-    "strictMetadataEmit": true,
-    "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "tests/**"
+  ]
 }

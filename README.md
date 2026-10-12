@@ -1,7 +1,7 @@
 # NGXS Reset Plugin
 
 > This is a fork of https://github.com/ng-turkey/ngxs-reset-plugin with the following changes:
-> Updated to Angular v18 and Ngxs 18. Featuring standalone API and modern improvements.
+> Updated to Angular v22 and NGXS 21/22 (zoneless-ready). Featuring standalone API and modern improvements.
 > Thank you for the original work!
 > Please give your credits to the original authors.
 
@@ -19,8 +19,11 @@ This plugin is designed to clear, reset, and overwrite [NGXS](https://www.npmjs.
 
 Please use the table below to make sure you are using the correct version of this library.
 
+`@paymate-software/ngxs-reset-plugin` 2.x requires Angular 22 and works without `zone.js` (zoneless). See [CHANGELOG.md](CHANGELOG.md).
+
 | Angular<br>version | ngxs-reset-plugin<br>version |
 | :----------------: | :--------------------------: |
+|         22         |      2 (NGXS 21 or 22)       |
 |        18+         |              4               |
 |        14+         |              3               |
 |         13         |              2               |
@@ -61,13 +64,13 @@ How the concept of meta reducers related to all this is:
 Run the following code in your terminal:
 
 ```
-yarn add ngxs-reset-plugin
+yarn add @paymate-software/ngxs-reset-plugin
 ```
 
 or if you are using npm:
 
 ```
-npm install ngxs-reset-plugin
+npm install @paymate-software/ngxs-reset-plugin
 ```
 
 ## Usage
@@ -77,11 +80,11 @@ npm install ngxs-reset-plugin
 Import `withNgxsResetPlugin` into your app config like:
 
 ```TS
-import { withNgxsResetPlugin } from 'ngxs-reset-plugin';
+import { withNgxsResetPlugin } from '@paymate-software/ngxs-reset-plugin';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    providerStore([]),
+    provideStore([]),
     withNgxsResetPlugin()
   ]
 }

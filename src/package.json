@@ -1,6 +1,6 @@
 {
   "name": "@paymate-software/ngxs-reset-plugin",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/paymatesoftware/ngxs-reset-plugin.git"
@@ -24,9 +24,9 @@
     "state defaults"
   ],
   "peerDependencies": {
-    "@angular/core": ">=18.0.0",
-    "@ngxs/store": ">=18.0.0",
-    "rxjs": ">=7.0.0"
+    "@angular/core": "^22.0.0",
+    "@ngxs/store": "^21.0.0 || ^22.0.0",
+    "rxjs": "^7.8.0"
   },
   "main": "public_api.ts"
 }

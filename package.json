@@ -1,6 +1,6 @@
 {
   "name": "@paymate-software/ngxs-reset-plugin",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -13,40 +13,37 @@
     "unverdaccio": "cd dist/ngxs-reset-plugin && npm unpublish --registry http://localhost:4873 --force && cd ../.."
   },
   "dependencies": {
-    "@angular/core": "^19.0.1",
-    "@ngxs/store": "^19.0.0",
-    "rxjs": "^7.8.1",
-    "tslib": "^2.6.3"
+    "@angular/core": "^22.2.2",
+    "@ngxs/store": "^21.0.0",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~19.0.2",
-    "@angular-eslint/builder": "^19.0.0",
-    "@angular-eslint/eslint-plugin": "^19.0.0",
-    "@angular-eslint/eslint-plugin-template": "^19.0.0",
-    "@angular-eslint/schematics": "^19.0.0",
-    "@angular-eslint/template-parser": "^19.0.0",
-    "@angular/cli": "~19.0.2",
-    "@angular/common": "~19.0.1",
-    "@angular/compiler": "~19.0.1",
-    "@angular/compiler-cli": "~19.0.1",
-    "@angular/language-service": "~19.0.1",
-    "@angular/platform-browser": "~19.0.1",
-    "@angular/platform-browser-dynamic": "~19.0.1",
-    "@angular/router": "~19.0.1",
+    "@angular/build": "^22.2.2",
+    "@angular/cli": "^22.2.2",
+    "@angular/common": "^22.2.2",
+    "@angular/compiler": "^22.2.2",
+    "@angular/compiler-cli": "^22.2.2",
+    "@angular/platform-browser": "^22.2.2",
+    "@angular/router": "^22.2.2",
     "@types/jasmine": "~5.1.5",
-    "@types/node": "~20.17.9",
-    "@typescript-eslint/eslint-plugin": "7.13.1",
-    "@typescript-eslint/parser": "7.13.1",
+    "@types/node": "^24.0.0",
+    "angular-eslint": "^22.6.0",
     "codecov": "3.8.3",
-    "eslint": "8.57.0",
+    "eslint": "^9.0.0",
     "jasmine-core": "5.4.0",
     "karma": "6.4.3",
     "karma-chrome-launcher": "3.2.0",
-    "karma-coverage-istanbul-reporter": "3.0.3",
+    "karma-coverage": "~2.2.1",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.1.0",
-    "ng-packagr": "~19.0.1",
-    "typescript": "5.6.3",
-    "zone.js": "0.15.0"
+    "ng-packagr": "^22.2.4",
+    "typescript": "6.0.3",
+    "typescript-eslint": "^8.0.0"
+  },
+  "overrides": {
+    "@ngxs/store": {
+      "@angular/core": "$@angular/core"
+    }
   }
 }

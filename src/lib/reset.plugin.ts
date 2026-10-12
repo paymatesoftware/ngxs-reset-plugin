@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   getActionTypeFromInstance,
   getValue,
+  NgxsNextPluginFn,
   NgxsPlugin,
   setValue,
 } from '@ngxs/store';
@@ -17,7 +18,7 @@ import {
 
 @Injectable()
 export class NgxsResetPlugin implements NgxsPlugin {
-  constructor(private readonly resetService: ResetService) {}
+  private readonly resetService = inject(ResetService);
 
   private clearStates(state: any, statesToKeep: MetaDataModel[]): any {
     return statesToKeep.reduce((obj, meta) => {
@@ -41,7 +42,7 @@ export class NgxsResetPlugin implements NgxsPlugin {
             : { [part]: acc },
         value,
       );
-    }, {});
+    }, {} as Record<string, any>);
   }
 
   private overwriteStates(
@@ -102,7 +103,7 @@ export class NgxsResetPlugin implements NgxsPlugin {
     return this.overwriteStates(this.resetService.initialState, metas, values);
   }
 
-  handle(state: any, action: any, next: any) {
+  handle(state: any, action: any, next: NgxsNextPluginFn) {
     const type = getActionTypeFromInstance(action);
 
     switch (type) {
@@ -134,6 +135,6 @@ export class NgxsResetPlugin implements NgxsPlugin {
   }
 }
 
-function getPath(meta: MetaDataModel): string {
+function getPath(meta: MetaDataModel): string | null {
   return meta.path;
 }

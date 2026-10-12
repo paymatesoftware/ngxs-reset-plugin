@@ -1,5 +1,5 @@
-import { NgZone } from '@angular/core';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ApplicationRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { Actions, provideStore, Store } from '@ngxs/store';
 import {
@@ -31,193 +31,193 @@ import { AdminModule } from './test-lazy-module';
 interface TestModel {
   actions$: Actions;
   store: Store;
-  navigateToAdmin: () => void;
+  navigateToAdmin: () => Promise<void>;
 }
 
 describe('NgxsResetPlugin', () => {
-  it('should clear states on StateClear', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should clear states on StateClear', async () => {
+    const { store } = await setupTest();
 
     store.dispatch(new StateClear());
-    tick();
+    await settle();
 
     expect(store.snapshot()).toEqual({});
-  }));
+  });
 
-  it('should clear states on StateClear but keep selected', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should clear states on StateClear but keep selected', async () => {
+    const { store } = await setupTest();
 
     store.dispatch(new StateClear(PreferencesState));
-    tick();
+    await settle();
 
     expect(store.snapshot()).toEqual({
       app: { preferences: { darkmode: false, language: 'en' } },
     });
-  }));
+  });
 
-  it('should clear states on StateClear but keep selected (multi)', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should clear states on StateClear but keep selected (multi)', async () => {
+    const { store } = await setupTest();
 
-    const session = ensureLastSeen(store);
+    const session = await ensureLastSeen(store);
 
     store.dispatch(new StateClear(PreferencesState, SessionState));
-    tick();
+    await settle();
 
     expect(store.snapshot()).toEqual({
       app: { preferences: { darkmode: false, language: 'en' }, session },
     });
-  }));
+  });
 
-  it('should ignore missing states on StateClear but keep the rest', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should ignore missing states on StateClear but keep the rest', async () => {
+    const { store } = await setupTest();
 
-    const session = ensureLastSeen(store);
+    const session = await ensureLastSeen(store);
 
     store.dispatch(
       new StateClear(PreferencesState, MissingState, SessionState),
     );
-    tick();
+    await settle();
 
     expect(store.snapshot()).toEqual({
       app: { preferences: { darkmode: false, language: 'en' }, session },
     });
-  }));
+  });
 
-  it('should log a warning on StateClear with wrong payload', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should log a warning on StateClear with wrong payload', async () => {
+    const { store } = await setupTest();
 
     console.warn = jasmine.createSpy('warning');
 
     store.dispatch(new StateClear(ToDoAdd));
-    tick();
+    await settle();
 
     expect(console.warn).toHaveBeenCalled();
     expect(store.snapshot()).toEqual({});
-  }));
+  });
 
-  it('should reset state to defaults on StateReset', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should reset state to defaults on StateReset', async () => {
+    const { store } = await setupTest();
 
     store.dispatch(new StateReset(AppState)); // should respect state tree
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should reset state to defaults on StateReset (multi)', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should reset state to defaults on StateReset (multi)', async () => {
+    const { store } = await setupTest();
 
-    ensureLastSeen(store);
+    await ensureLastSeen(store);
 
     store.dispatch(new StateReset(SessionState, ToDoState));
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(SessionState.getState)).toEqual({});
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should ignore missing states on StateReset and reset the rest', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should ignore missing states on StateReset and reset the rest', async () => {
+    const { store } = await setupTest();
 
-    ensureLastSeen(store);
+    await ensureLastSeen(store);
 
     store.dispatch(new StateReset(SessionState, MissingState, ToDoState));
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(SessionState.getState)).toEqual({});
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should log a warning on StateReset with wrong payload', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should log a warning on StateReset with wrong payload', async () => {
+    const { store } = await setupTest();
     const state = store.snapshot();
 
     console.warn = jasmine.createSpy('warning');
 
     store.dispatch(new StateReset(ToDoAdd));
-    tick();
+    await settle();
 
     expect(console.warn).toHaveBeenCalled();
     expect(store.snapshot()).toEqual(state);
-  }));
+  });
 
-  it('should reset state to defaults on StateResetAll', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should reset state to defaults on StateResetAll', async () => {
+    const { store } = await setupTest();
 
     const preferences = store.selectSnapshot(PreferencesState.getState);
     const session = store.selectSnapshot(SessionState.getState);
 
-    ensureDarkMode(store);
-    ensureLastSeen(store);
+    await ensureDarkMode(store);
+    await ensureLastSeen(store);
 
     store.dispatch(new StateResetAll());
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(PreferencesState.getState)).toEqual(
       preferences,
     );
     expect(store.selectSnapshot(SessionState.getState)).toEqual(session);
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should reset state to defaults on StateResetAll but keep given state', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should reset state to defaults on StateResetAll but keep given state', async () => {
+    const { store } = await setupTest();
 
-    const session = ensureLastSeen(store);
+    const session = await ensureLastSeen(store);
 
     store.dispatch(new StateResetAll(SessionState));
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(SessionState.getState)).toEqual(session);
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should reset state to defaults on StateResetAll but keep given states (multi)', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should reset state to defaults on StateResetAll but keep given states (multi)', async () => {
+    const { store } = await setupTest();
 
-    const preferences = ensureDarkMode(store);
-    const session = ensureLastSeen(store);
+    const preferences = await ensureDarkMode(store);
+    const session = await ensureLastSeen(store);
 
     store.dispatch(new StateResetAll(PreferencesState, SessionState));
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(PreferencesState.getState)).toEqual(
       preferences,
     );
     expect(store.selectSnapshot(SessionState.getState)).toEqual(session);
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should ignore missing states on StateResetAll and keep the rest', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should ignore missing states on StateResetAll and keep the rest', async () => {
+    const { store } = await setupTest();
 
-    const preferences = ensureDarkMode(store);
-    const session = ensureLastSeen(store);
+    const preferences = await ensureDarkMode(store);
+    const session = await ensureLastSeen(store);
 
     store.dispatch(
       new StateResetAll(PreferencesState, MissingState, SessionState),
     );
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(PreferencesState.getState)).toEqual(
       preferences,
     );
     expect(store.selectSnapshot(SessionState.getState)).toEqual(session);
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should log a warning on StateResetAll with wrong payload', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should log a warning on StateResetAll with wrong payload', async () => {
+    const { store } = await setupTest();
     const preferences = store.selectSnapshot(PreferencesState.getState);
     const session = store.selectSnapshot(SessionState.getState);
 
     console.warn = jasmine.createSpy('warning');
 
-    ensureDarkMode(store);
-    ensureLastSeen(store);
+    await ensureDarkMode(store);
+    await ensureLastSeen(store);
 
     store.dispatch(new StateResetAll(ToDoAdd));
-    tick();
+    await settle();
 
     expect(console.warn).toHaveBeenCalled();
     expect(store.selectSnapshot(PreferencesState.getState)).toEqual(
@@ -225,35 +225,35 @@ describe('NgxsResetPlugin', () => {
     );
     expect(store.selectSnapshot(SessionState.getState)).toEqual(session);
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should overwrite state with given value on StateOverwrite', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should overwrite state with given value on StateOverwrite', async () => {
+    const { store } = await setupTest();
 
     store.dispatch(new StateOverwrite([ToDoState, { list: [] }]));
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should overwrite state with given value on StateOverwrite (multi)', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should overwrite state with given value on StateOverwrite (multi)', async () => {
+    const { store } = await setupTest();
 
-    ensureLastSeen(store);
+    await ensureLastSeen(store);
 
     store.dispatch(
       new StateOverwrite([SessionState, null], [ToDoState, { list: [] }]),
     );
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(SessionState.getState)).toBeNull();
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should ignore missing states on StateOverwrite and overwrite the rest', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should ignore missing states on StateOverwrite and overwrite the rest', async () => {
+    const { store } = await setupTest();
 
-    ensureLastSeen(store);
+    await ensureLastSeen(store);
 
     store.dispatch(
       new StateOverwrite(
@@ -262,64 +262,71 @@ describe('NgxsResetPlugin', () => {
         [ToDoState, { list: [] }],
       ),
     );
-    tick();
+    await settle();
 
     expect(store.selectSnapshot(SessionState.getState)).toBeNull();
     expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-  }));
+  });
 
-  it('should log a warning on StateOverwrite with wrong payload', fakeAsync(() => {
-    const { store } = setupTest();
+  it('should log a warning on StateOverwrite with wrong payload', async () => {
+    const { store } = await setupTest();
     const state = store.snapshot();
 
     console.warn = jasmine.createSpy('warning');
 
     store.dispatch(new StateOverwrite([ToDoAdd, true]));
-    tick();
+    await settle();
 
     expect(console.warn).toHaveBeenCalled();
     expect(store.snapshot()).toEqual(state);
-  }));
+  });
 
   describe('with lazy module', () => {
     let testModule: TestModel;
 
-    beforeEach(fakeAsync(() => {
-      testModule = setupTest();
-      testModule.navigateToAdmin();
-    }));
+    beforeEach(async () => {
+      testModule = await setupTest();
+      await testModule.navigateToAdmin();
+    });
 
-    it('should reset state to defaults on StateResetAll', fakeAsync(() => {
+    it('should reset state to defaults on StateResetAll', async () => {
       const { store } = testModule;
 
       const adminState = store.selectSnapshot(AdminState.getState);
-      ensureSuperadminRole(store);
+      await ensureSuperadminRole(store);
 
       store.dispatch(new StateResetAll());
-      tick();
+      await settle();
 
       expect(store.selectSnapshot(AdminState.getState)).toEqual(adminState);
-    }));
+    });
 
-    it('should reset state to defaults on StateResetAll but keep given state', fakeAsync(() => {
+    it('should reset state to defaults on StateResetAll but keep given state', async () => {
       const { store } = testModule;
 
-      const adminState = ensureSuperadminRole(store);
+      const adminState = await ensureSuperadminRole(store);
 
       store.dispatch(new StateResetAll(AdminState));
-      tick();
+      await settle();
 
       expect(store.selectSnapshot(AdminState.getState)).toEqual(adminState);
       expect(store.selectSnapshot(ToDoState.list)).toEqual([]);
-    }));
+    });
   });
 });
 
-function ensureDarkMode(store: Store): Preferences.State {
+/**
+ * Zoneless replacement for `tick()`: waits until Angular has no pending work.
+ */
+function settle(): Promise<void> {
+  return TestBed.inject(ApplicationRef).whenStable();
+}
+
+async function ensureDarkMode(store: Store): Promise<Preferences.State> {
   const { darkmode } = store.selectSnapshot(PreferencesState.getState);
 
   store.dispatch(new PreferencesToggleDark());
-  tick();
+  await settle();
 
   const preferences = store.selectSnapshot(PreferencesState.getState);
   expect(preferences.darkmode).toBe(!darkmode);
@@ -327,11 +334,11 @@ function ensureDarkMode(store: Store): Preferences.State {
   return preferences;
 }
 
-function ensureLastSeen(store: Store): Session.State {
+async function ensureLastSeen(store: Store): Promise<Session.State> {
   const lastseen = new Date().valueOf();
 
   store.dispatch(new SessionEnd(lastseen));
-  tick();
+  await settle();
 
   const session = store.selectSnapshot(SessionState.getState);
   expect(session).toEqual({ lastseen });
@@ -339,11 +346,11 @@ function ensureLastSeen(store: Store): Session.State {
   return session;
 }
 
-function ensureSuperadminRole(store: Store): Admin.State {
+async function ensureSuperadminRole(store: Store): Promise<Admin.State> {
   const role = store.selectSnapshot(AdminState.role);
 
   store.dispatch(new AdminSetSuperadmin());
-  tick();
+  await settle();
 
   const adminState = store.selectSnapshot(AdminState.getState);
   expect(adminState.role).not.toBe(role);
@@ -351,7 +358,7 @@ function ensureSuperadminRole(store: Store): Admin.State {
   return adminState;
 }
 
-function setupTest(): TestModel {
+async function setupTest(): Promise<TestModel> {
   TestBed.configureTestingModule({
     providers: [
       provideStore([AppState, PreferencesState, SessionState, ToDoState]),
@@ -366,20 +373,17 @@ function setupTest(): TestModel {
   });
 
   const router = TestBed.inject(Router);
-  const ngZone = TestBed.inject(NgZone);
   const actions$ = TestBed.inject(Actions);
   const store = TestBed.inject(Store);
 
-  function navigateToAdmin() {
-    ngZone.run(() => {
-      router.navigateByUrl('/admin');
-    });
-    tick();
+  async function navigateToAdmin() {
+    await router.navigateByUrl('/admin');
+    await settle();
   }
 
   store.dispatch(new ToDoAdd('Test'));
 
-  tick();
+  await settle();
   expect(store.selectSnapshot(ToDoState.list)).toEqual([
     { description: 'Test', done: false },
   ]);
